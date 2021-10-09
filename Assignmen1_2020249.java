@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Assignment1_2020249 {
+public class Assignmen1_2020249 {
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
 
