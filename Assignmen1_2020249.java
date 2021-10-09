@@ -96,7 +96,125 @@ public class Assignmen1_2020249 {
                     } 
                     break;
                 case 5:
-                    
+                    System.out.println("Enter unique citizen id");
+                    String cid =sc.next();
+                    boolean f =false;
+                    for(int i=0;i<allcitizen.size();i++){
+                        if(allcitizen.get(i).UID().equals(cid)){
+                            f=true;
+                            boolean found=false;
+                            System.out.println("0 Search by pincode\n1 Search by vaccine\n2 exit");
+                            int ch1=sc.nextInt();
+                            if(ch1==0){
+                                    System.out.println("Enter pincode");
+                                    int pin=sc.nextInt();
+                                    for(int j=0;j<allhosp.size();j++){
+                                        if(pin==allhosp.get(j).Pincode()){
+                                            found=true;
+                                            System.out.println(allhosp.get(j).ID()+" "+allhosp.get(j).Hname());
+                                        }
+                                    }
+                                    if(found){
+                                        System.out.println("Enter Hospital ID");
+                                        int ch_1=sc.nextInt();
+                                        for(int j=0;j<allhosp.size();j++){
+                                            if(ch_1==allhosp.get(j).ID()){
+                                                Hospital h1=allhosp.get(j);
+                                                h1.allslots();
+                                                System.out.println("Enter slot");
+                                                int sl=sc.nextInt();
+                                                slot s=h1.ret(sl);
+                                                if(s.quantity()>0){
+                                                    s.updateSlot();
+                                                    System.out.println(allcitizen.get(i).name()+" is Vaccinated");
+                                                    int nd=0;
+                                                    int gp=0;
+                                                    for(int x=0;x<allvacs.size();x++){
+                                                        if(s.Vname().equals(allvacs.get(x).name())){
+                                                            nd=allvacs.get(x).doses();
+                                                            gp=allvacs.get(x).Gap();
+                                                        }
+                                                    }
+                                                    if(allcitizen.get(i).checkstatus().equals("REGISTERED")){
+                                                        vacinfo info=new vacinfo(s.Vname(),nd);
+                                                
+                                                        allcitizen.get(i).addinfo(info,gp);
+                                                    }
+                                                    else{
+                                                        allcitizen.get(i).updatevacinfo(gp);
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    
+                            }
+                            else if(ch1==1){
+                                    System.out.println("Enter Vaccine name: ");
+                                    String vn=sc.next();
+                                    for(int j=0;j<allhosp.size();j++){
+                                        if(allhosp.get(j).isslot(vn)){
+                                            found=true;
+                                            System.out.println(allhosp.get(j).ID()+" "+allhosp.get(j).Hname());
+                                        }
+                                    }
+                                    if(found){
+                                        System.out.println("Enter the Hospital id");
+                                        int hid1=sc.nextInt();
+                                        int index=0;
+                                        for(int k=0;k<allhosp.size();k++){
+                                            if(allhosp.get(k).ID()==hid1){
+                                                index=k;
+                                            }
+                                        }
+                                        Hospital ho=allhosp.get(index);
+                                        if(!ho.find(vn,allcitizen.get(i).ndate())){
+                                            System.out.println("No slot found");
+                                            break;
+                                        }
+                                        System.out.println("Enter slot number: ");
+                                        int ch2=sc.nextInt();
+                                        slot s1=ho.retslo(vn,allcitizen.get(i).ndate());
+                                        if(s1!=null){
+                                            s1.updateSlot();
+                                            System.out.println(allcitizen.get(i).name()+" is Vaccinated");
+                                                    int nd=0;
+                                                    int gp=0;
+                                                    for(int x=0;x<allvacs.size();x++){
+                                                        if(vn.equals(allvacs.get(x).name())){
+                                                            nd=allvacs.get(x).doses();
+                                                            gp=allvacs.get(x).Gap();
+                                                        }
+                                                    }
+                                            if(allcitizen.get(i).checkstatus().equals("REGISTERED")){
+                                                vacinfo info=new vacinfo(vn,nd);
+                                                allcitizen.get(i).addinfo(info,gp);
+                                            }
+                                            else{
+                                                allcitizen.get(i).updatevacinfo(gp);
+                                            }
+
+                                        }
+                                        else{
+                                            System.out.println("No slot found");
+                                        }
+                                    }
+                                    else{
+                                        System.out.println("No slots available");
+                                    }
+
+
+
+                                    
+                                }
+                                else
+                                    break;
+                            
+                        
+                                
+                        }
+                    }
                     break;
                 case 6:
                     System.out.println("Enter Hospital ID");
@@ -115,12 +233,24 @@ public class Assignmen1_2020249 {
                     break;
                 case 7:
                     System.out.println("Enter Citizen ID");
-                    String cid=sc.next();
+                    String Cid=sc.next();
                     Boolean flg=false;
                     for(int i=0;i<allcitizen.size();i++){
-                        if(allcitizen.get(i).UID().equals(cid)){
+                        if(allcitizen.get(i).UID().equals(Cid)){
                             flg=true;
-                            allcitizen.get(i).checkstatus();
+                            System.out.println(allcitizen.get(i).checkstatus());
+                            if(allcitizen.get(i).checkstatus()=="REGISTERED"){
+                                System.out.println(allcitizen.get(i).checkstatus());
+                            }
+                            else if(allcitizen.get(i).checkstatus()=="Fully Vaccinated"){
+                                allcitizen.get(i).printvac();
+                            }
+                            else{
+                                // System.out.println(allcitizen.get(i).checkstatus());
+                                allcitizen.get(i).printvac();
+                                System.out.println(allcitizen.get(i).ndate());
+                                
+                            }
                         }
                     }
                     if(!flg){
@@ -180,6 +310,10 @@ class slot{
         return this.Vname;
     }
 
+    public void updateSlot(){
+        this.quantity-=1;
+    }
+
 }
 
 
@@ -203,7 +337,6 @@ class Hospital{
 
 
     private int Genid(){
-        Random rand=new Random();
         String s="";
         Random rnd = new Random();
         while(s.length()<6){
@@ -229,12 +362,51 @@ class Hospital{
     public int ID(){
         return this.ID;
     }
-
+    
     public void allslots(){
         for(int i=0;i<this.slots.size();i++){
             slot s=this.slots.get(i);
-            System.out.println("Day: "+s.daynumber()+" Vaccine: "+s.Vname()+" Available Qty: "+s.quantity());
+            System.out.println(i+ " --> Day: "+s.daynumber()+" Vaccine: "+s.Vname()+" Available Qty: "+s.quantity());
         }
+    }
+
+    // public void vslot(String vn){
+    //     for(int i=0;i<this.slots.size();i++){
+    //         slot s=this.slots.get(i);
+    //         if(s.Vname().equals(vn))
+    //             System.out.println("Day: "+s.daynumber()+" Vaccine: "+s.Vname()+" Available Qty: "+s.quantity());
+    //     }
+    // }
+
+    public boolean find(String vname,int d){
+        for(int i=0;i<slots.size();i++){
+            if(slots.get(i).Vname().equals(vname)&& d<=slots.get(i).daynumber()){
+                slot s=this.slots.get(i);
+                System.out.println(i+" --> Day: "+s.daynumber()+" Vaccine: "+s.Vname()+" Available Qty: "+s.quantity());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public slot ret(int pos){
+        return this.slots.get(pos);
+    }
+    public slot retslo(String Vname,int d){
+        for(int i=0;i<slots.size();i++){
+            if(slots.get(i).Vname().equals(Vname) && d<=slots.get(i).daynumber()){
+                return this.slots.get(i);
+            }
+        }
+        return null;
+    }
+    public boolean isslot(String Vname){
+        for(int i=0;i<slots.size();i++){
+            if(slots.get(i).Vname().equals(Vname)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
@@ -245,17 +417,30 @@ class vacinfo{
     private String Vname;
     private int doses;
     private int rdoses;
-    private int ldate;
-    private int ndate;
-    vacinfo(String Vname,int cd,int d){
+    vacinfo(String Vname,int rd){
 
         this.Vname=Vname;
+        this.doses=1;
+        this.rdoses=rd;
 
     }
 
     public String getVname() {
         return this.Vname;
     } 
+
+    public int doses(){
+        return this.doses;
+    }
+
+    public int rdoses(){
+        return this.rdoses;
+    }
+
+    public void updose(){
+        this.doses++;
+    }
+
 
 }
 
@@ -268,11 +453,13 @@ class Citizen{
     private String status;
     private String Uid;
     private int age;
+    private int date;
     private vacinfo info;
     Citizen(String name,int age,String Uid){
         this.name=name;
         this.age=age;
         this.Uid=Uid;
+        this.date=1;
         this.info=null;
         this.status="REGISTERED";
         // System.out.println("Citizen Name: "+this.name()+", age "+this.age()+", Unique ID "+this.UID());
@@ -290,13 +477,38 @@ class Citizen{
         return this.age;
     }
 
-    public void checkstatus(){
-        System.out.println(this.status);
-        System.out.println(info);
+    public int ndate(){
+        return this.date;
     }
-    // public void ID(){
-    //     System.out.println(this.info.Vname());
-        
+    public String checkstatus(){
+        return this.status;
+    }
+    public void printvac(){
+        System.out.println("Vaccine given: "+this.info.getVname()+"\n Number of doses"+this.info.doses());
+    }
+    private void upnd(int date){
+        this.date+=date;
+    }
+    public void addinfo(vacinfo info,int ndate){
+        if(info.doses()==info.rdoses()){
+            this.status="Fully Vaccinated";
+        }
+        else
+            this.status="Partially Vaccinated";
+        this.info=info;
+        this.upnd(ndate);
+    }
+    public void updatevacinfo(int date){
+        if(this.info!=null){
+            this.info.updose();
+            if(this.info.rdoses()==this.info.doses()){
+                status ="Fully Vaccinated";
 
-    // }
+            }
+            if(this.info.rdoses()!=this.info.doses()){
+                status ="Partially Vaccinated";
+                this.upnd(date);
+            }
+        }
+    }
 }
