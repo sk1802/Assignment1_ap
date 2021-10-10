@@ -24,6 +24,15 @@ public class Assignmen1_2020249 {
                 case 1:
                     System.out.print("Enter Vaccine Name ");
                     String name=sc.next();
+                    int flg=0;
+                    for(int g=0;g<allvacs.size();g++){
+                        if(allvacs.get(g).name().equals(name)){
+                            flg=1;
+                        }
+                    }
+                    if(flg==1){
+                        System.out.println("Vaccine already Registered");
+                        break;}
                     System.out.print("Enter Number of Doses ");
                     int doses=sc.nextInt();
                     int Gap;
@@ -43,6 +52,15 @@ public class Assignmen1_2020249 {
                     String Hname=sc.next();
                     System.out.print("Enter Pincode ");
                     int Pincode=sc.nextInt();
+                    int f2=0;
+                    for(int g=0;g<allhosp.size();g++){
+                        if(allhosp.get(g).Hname().equals(Hname) && Pincode==allhosp.get(g).Pincode()){
+                            f2=1;
+                        }
+                    }
+                    if(f2==1){
+                        System.out.println("Hospital already Registered");
+                        break;}
                     Hospital h=new Hospital(Hname, Pincode);
                     allhosp.add(h);
                     break;
@@ -56,8 +74,21 @@ public class Assignmen1_2020249 {
                     System.out.print("Enter the Uniques ID");
                     String Uid=sc.next();
                     System.out.println("Citizen name: "+cname+", age: "+age+", Unique ID: "+Uid);
+                    int f3=0;
+                    for(int g=0;g<allhosp.size();g++){
+                        if(allcitizen.get(g).UID().equals(Uid)){
+                            f3=1;
+                        }
+                    }
+                    if(f3==1){
+                        System.out.println("Citizen with this Unique id already Registered");
+                        break;}
                     if(age<18){
                         System.out.println("Age below 18 Not allowed");
+                        break;
+                    }
+                    if(Uid.length()!=12){
+                        System.out.println("Uid is not valid");
                         break;
                     }
 
@@ -126,7 +157,7 @@ public class Assignmen1_2020249 {
                                                 slot s=h1.ret(sl);
                                                 if(s.quantity()>0){
                                                     s.updateSlot();
-                                                    System.out.println(allcitizen.get(i).name()+" is Vaccinated");
+                                                    System.out.println(allcitizen.get(i).name()+" is Vaccinated with "+s.Vname());
                                                     int nd=0;
                                                     int gp=0;
                                                     for(int x=0;x<allvacs.size();x++){
@@ -214,6 +245,10 @@ public class Assignmen1_2020249 {
                         
                                 
                         }
+                        
+                    }
+                    if(!f){
+                        System.out.println("ID does not exist");
                     }
                     break;
                 case 6:
@@ -222,7 +257,7 @@ public class Assignmen1_2020249 {
                     boolean fl=false;
                     for(int i=0;i<allhosp.size();i++){
                         if(allhosp.get(i).ID()==Hid){
-                            System.out.println("hello");
+                            // System.out.println("hello");
                             fl=true;
                             allhosp.get(i).allslots();
                         }
@@ -234,13 +269,14 @@ public class Assignmen1_2020249 {
                 case 7:
                     System.out.println("Enter Citizen ID");
                     String Cid=sc.next();
-                    Boolean flg=false;
+                    Boolean flg1=false;
                     for(int i=0;i<allcitizen.size();i++){
                         if(allcitizen.get(i).UID().equals(Cid)){
-                            flg=true;
+                            flg1=true;
                             System.out.println(allcitizen.get(i).checkstatus());
                             if(allcitizen.get(i).checkstatus()=="REGISTERED"){
-                                System.out.println(allcitizen.get(i).checkstatus());
+                                // System.out.println(allcitizen.get(i).checkstatus());
+                                break;
                             }
                             else if(allcitizen.get(i).checkstatus()=="Fully Vaccinated"){
                                 allcitizen.get(i).printvac();
@@ -253,7 +289,7 @@ public class Assignmen1_2020249 {
                             }
                         }
                     }
-                    if(!flg){
+                    if(!flg1){
                         System.out.println("No Citizen with provided unique id exist in records");
                     }
                     break;
