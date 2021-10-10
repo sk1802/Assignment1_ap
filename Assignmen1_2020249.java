@@ -16,7 +16,7 @@ Classes  :
             Gap() 
             doses()
         setter
-            no specific fiels needs to be updates once initialised
+            no specific fields needs to be updates once initialised
     1) slot
         getters
             daynumber()
