@@ -1,4 +1,62 @@
+/*Name SUMIT KUMAR
+ROLL NO 2020249
+BATCH '24
+ASSINGMENT 1 ADVANCED PROGRAMMING
+
+Assumptions : 
+ 1) The input given is in corret format NO EXTRA SPACES
+ 2) Few errors are still handled by the algorithm
+
+Description : 
+ Number of class = 5 classes + 1 public class(Assignmen1+2020249)
+Classes  : 
+    1) vaccine
+        getters 
+            name() 
+            Gap() 
+            doses()
+        setter
+            no specific fiels needs to be updates once initialised
+    1) slot
+        getters
+            daynumber()
+            quantity()
+            Vname()
+        setters
+            updateslot()
+
+    2) Hospital 
+        getters
+            Hname()
+            Pincode()
+            ID()
+            ret()
+            retslo()
+        setters
+            addslot()
+    4)vacinfo
+        getters
+            getVname()
+            doses()
+            rdoses()
+        setters
+            updose()
+    5)Citizen
+        getters
+            name()
+            UID()
+            age()
+            ndate()
+            checkstatus()
+        setters
+            upnd()
+            addinfo()
+            updateinfo()
+
+
+*/
 import java.util.*;
+
 
 public class Assignmen1_2020249 {
     public static void main(String[] args) {
@@ -35,7 +93,11 @@ public class Assignmen1_2020249 {
                         break;}
                     System.out.print("Enter Number of Doses ");
                     int doses=sc.nextInt();
-                    int Gap;
+                    if(doses<1){
+                        System.out.println("Vaccine with 0 doses can't be Registered");
+                        break;
+                    }
+                    int Gap=0;
                     if(doses==1){
                         Gap=0;
                     }
@@ -52,6 +114,9 @@ public class Assignmen1_2020249 {
                     String Hname=sc.next();
                     System.out.print("Enter Pincode ");
                     int Pincode=sc.nextInt();
+                    if (Pincode<100000 && Pincode>999999) {
+                        break;
+                    }
                     int f2=0;
                     for(int g=0;g<allhosp.size();g++){
                         if(allhosp.get(g).Hname().equals(Hname) && Pincode==allhosp.get(g).Pincode()){
@@ -75,7 +140,7 @@ public class Assignmen1_2020249 {
                     String Uid=sc.next();
                     System.out.println("Citizen name: "+cname+", age: "+age+", Unique ID: "+Uid);
                     int f3=0;
-                    for(int g=0;g<allhosp.size();g++){
+                    for(int g=0;g<allcitizen.size();g++){
                         if(allcitizen.get(g).UID().equals(Uid)){
                             f3=1;
                         }
@@ -284,7 +349,7 @@ public class Assignmen1_2020249 {
                             else{
                                 // System.out.println(allcitizen.get(i).checkstatus());
                                 allcitizen.get(i).printvac();
-                                System.out.println(allcitizen.get(i).ndate());
+                                System.out.println("Next vaccine date"+allcitizen.get(i).ndate());
                                 
                             }
                         }
@@ -304,48 +369,63 @@ public class Assignmen1_2020249 {
         }
     }
 }
+
+//class of vaccine
 class vaccine{
-    private String name;
-    private int doses;
-    private int Gap;
+    private String name;    //name of the vaccine
+    private int doses;      //Doses 
+    private int Gap;        //Number of days between doses
+
+    //constructor
     vaccine(String name,int doses,int Gap){
         this.Gap=Gap;
         this.doses=doses;
         this.name=name;
         System.out.println("Vaccine Name: "+this.name()+", Number of doses "+this.doses()+", Gap between Doses "+this.Gap());
     }
+    //returns vaccine name
     public String name(){
         return this.name;
     }
+    //returns the Gap between doses
     public int Gap(){
         return this.Gap;
     }
+    //returns the number of doses
     public int doses(){
         return this.doses;
     }
 }
+
+//class of slot
 class slot{
-    private int daynumber;
-    private int quantity;
-    private String Vname;
+    private int daynumber;          //daynumber of the slot
+    private int quantity;           //quantity of the slot
+    private String Vname;           //Vaccine name in the current slot
+
+    //constructor
     slot(int dn,int q,String vn){
         this.Vname=vn;
         this.daynumber=dn;
         this.quantity=q;
     }
 
+    //returns the day of the slot
     public int daynumber(){
         return this.daynumber;
     }
 
+    //returns the vaccine quantity left in the slot
     public int quantity(){
         return this.quantity;
     }
 
+    //returns vaccine name
     public String Vname(){
         return this.Vname;
     }
 
+    //update the slot vaccine quantity (used when someone is vaccined in the current slot)
     public void updateSlot(){
         this.quantity-=1;
     }
@@ -355,14 +435,15 @@ class slot{
 
 
 
-
+//Class for Hospital data
 class Hospital{
-    private int ID;
-    private String Hname;
-    private int Pincode;
-    private ArrayList<slot> slots;
+    private int ID;             //unique hospital id
+    private String Hname;       //Hospital name
+    private int Pincode;        //Pincode of the Hospital
+    private ArrayList<slot> slots;  //arraylist maintainig hospital slots
 
 
+    //Constructor
     Hospital(String name,int Pincode){
         this.Hname=name;
         this.Pincode=Pincode;
@@ -371,7 +452,7 @@ class Hospital{
         System.out.println("Hospital Name: "+this.Hname()+", Pincode "+this.Pincode()+", Unique ID "+this.ID());
     }
 
-
+    //id generator random 6 digit (since random is used very low probablity of having the same id of 6 digits)
     private int Genid(){
         String s="";
         Random rnd = new Random();
@@ -383,22 +464,27 @@ class Hospital{
         return Integer.parseInt(s);
     }
 
+    //add slot to the hospital slot list
     public void addslot(slot sl){
         this.slots.add(sl);
     }
 
+    //returns Hospital name
     public String Hname(){
         return this.Hname;
     }
 
+    //returns Pincode of the hospital
     public int Pincode(){
         return this.Pincode;
     }
 
+    //return unique id of the hospital
     public int ID(){
         return this.ID;
     }
-    
+
+    //print all slots 
     public void allslots(){
         for(int i=0;i<this.slots.size();i++){
             slot s=this.slots.get(i);
@@ -406,14 +492,7 @@ class Hospital{
         }
     }
 
-    // public void vslot(String vn){
-    //     for(int i=0;i<this.slots.size();i++){
-    //         slot s=this.slots.get(i);
-    //         if(s.Vname().equals(vn))
-    //             System.out.println("Day: "+s.daynumber()+" Vaccine: "+s.Vname()+" Available Qty: "+s.quantity());
-    //     }
-    // }
-
+    //return true or flase depending on if the slot with the vaccine name and provided day or after that day exists
     public boolean find(String vname,int d){
         for(int i=0;i<slots.size();i++){
             if(slots.get(i).Vname().equals(vname)&& d<=slots.get(i).daynumber()){
@@ -425,9 +504,12 @@ class Hospital{
         return false;
     }
 
+    //returns the slot data of the spcified slot 
     public slot ret(int pos){
         return this.slots.get(pos);
     }
+
+    //return slot depending on if the slot with the vaccine name and provided day or after that day exists
     public slot retslo(String Vname,int d){
         for(int i=0;i<slots.size();i++){
             if(slots.get(i).Vname().equals(Vname) && d<=slots.get(i).daynumber()){
@@ -436,6 +518,8 @@ class Hospital{
         }
         return null;
     }
+
+    ////return true or flase  depending on if the slot with the vaccine name exists
     public boolean isslot(String Vname){
         for(int i=0;i<slots.size();i++){
             if(slots.get(i).Vname().equals(Vname)){
@@ -448,11 +532,13 @@ class Hospital{
 }
 
 
-
+//holds the vaccine info of a citizen
 class vacinfo{
-    private String Vname;
-    private int doses;
-    private int rdoses;
+    private String Vname;           //name of the vaccine given
+    private int doses;              //doses given till now 
+    private int rdoses;             //total doses to be given
+
+    //constructor
     vacinfo(String Vname,int rd){
 
         this.Vname=Vname;
@@ -461,18 +547,22 @@ class vacinfo{
 
     }
 
+    //returns given vaccine name
     public String getVname() {
         return this.Vname;
     } 
 
+    //returns the number of doses given 
     public int doses(){
         return this.doses;
     }
 
+    //returns the total doses to be given
     public int rdoses(){
         return this.rdoses;
     }
 
+    //updates the given doses after a vaccination
     public void updose(){
         this.doses++;
     }
@@ -485,12 +575,14 @@ class vacinfo{
 
 
 class Citizen{
-    private String name;
-    private String status;
-    private String Uid;
-    private int age;
-    private int date;
-    private vacinfo info;
+    private String name;        //Citizen name
+    private String status;      //Vaccination status of the person (REGISTERS/Partially or Fully vaccinated)
+    private String Uid;         //Unique ID of the Citizen
+    private int age;            //Age of the Citizen
+    private int date;           //Date of next vaccination(1 non vaccinated user and 0 for fully vaccinated user)
+    private vacinfo info;       //Vaccine info of the citizen
+
+    //constructor
     Citizen(String name,int age,String Uid){
         this.name=name;
         this.age=age;
@@ -498,42 +590,56 @@ class Citizen{
         this.date=1;
         this.info=null;
         this.status="REGISTERED";
-        // System.out.println("Citizen Name: "+this.name()+", age "+this.age()+", Unique ID "+this.UID());
     }
 
+    //returns the name of the citizen
     public String name(){
         return this.name;
     }
     
+    //returns the 12 digit unique ID of the citizen
     public String UID(){
         return this.Uid;
     }
 
+    //returns the age of the citizen
     public int age(){
         return this.age;
     }
 
+    //returns the next vaccination date
     public int ndate(){
         return this.date;
     }
+
+    //return the vaccination status of the citizen
     public String checkstatus(){
         return this.status;
     }
+
+    //Print the vaccine information
     public void printvac(){
-        System.out.println("Vaccine given: "+this.info.getVname()+"\n Number of doses"+this.info.doses());
+        System.out.println("Vaccine given: "+this.info.getVname()+"\nNumber of doses"+this.info.doses());
     }
+
+    //update the next vaccine date 
     private void upnd(int date){
         this.date+=date;
     }
+
+    //add the vaccine info if previously does not exist
     public void addinfo(vacinfo info,int ndate){
         if(info.doses()==info.rdoses()){
             this.status="Fully Vaccinated";
+            this.upnd(-this.ndate());
         }
         else
             this.status="Partially Vaccinated";
         this.info=info;
         this.upnd(ndate);
     }
+
+    //Update the vaccine information some information already exist
     public void updatevacinfo(int date){
         if(this.info!=null){
             this.info.updose();
