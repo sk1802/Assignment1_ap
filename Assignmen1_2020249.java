@@ -136,7 +136,7 @@ public class Assignmen1_2020249 {
                     
                     System.out.print("Enter Age of the citizen ");
                     int age=sc.nextInt();
-                    System.out.print("Enter the Uniques ID");
+                    System.out.print("Enter the Uniques ID: ");
                     String Uid=sc.next();
                     System.out.println("Citizen name: "+cname+", age: "+age+", Unique ID: "+Uid);
                     int f3=0;
@@ -199,9 +199,9 @@ public class Assignmen1_2020249 {
                         if(allcitizen.get(i).UID().equals(cid)){
                             f=true;
                             boolean found=false;
-                            System.out.println("0 Search by pincode\n1 Search by vaccine\n2 exit");
+                            System.out.println("1 Search by pincode\n2 Search by vaccine\n3 exit");
                             int ch1=sc.nextInt();
-                            if(ch1==0){
+                            if(ch1==1){
                                     System.out.println("Enter pincode");
                                     int pin=sc.nextInt();
                                     for(int j=0;j<allhosp.size();j++){
@@ -220,6 +220,12 @@ public class Assignmen1_2020249 {
                                                 System.out.println("Enter slot");
                                                 int sl=sc.nextInt();
                                                 slot s=h1.ret(sl);
+                                                if(allcitizen.get(i).Vacname()!=null){
+                                                    if(allcitizen.get(i).Vacname().equals(s.Vname())){
+                                                        System.out.println("Diffrent vaccine type not recommanded");
+                                                        break;
+                                                    }
+                                                }
                                                 if(s.quantity()>0){
                                                     s.updateSlot();
                                                     System.out.println(allcitizen.get(i).name()+" is Vaccinated with "+s.Vname());
@@ -246,7 +252,7 @@ public class Assignmen1_2020249 {
                                     }
                                     
                             }
-                            else if(ch1==1){
+                            else if(ch1==2){
                                     System.out.println("Enter Vaccine name: ");
                                     String vn=sc.next();
                                     for(int j=0;j<allhosp.size();j++){
@@ -266,15 +272,21 @@ public class Assignmen1_2020249 {
                                         }
                                         Hospital ho=allhosp.get(index);
                                         if(!ho.find(vn,allcitizen.get(i).ndate())){
-                                            System.out.println("No slot found");
+                                            System.out.println("No slot available ");
                                             break;
                                         }
                                         System.out.println("Enter slot number: ");
                                         int ch2=sc.nextInt();
                                         slot s1=ho.retslo(vn,allcitizen.get(i).ndate());
+                                        if(allcitizen.get(i).Vacname()!=null){
+                                            if(!allcitizen.get(i).Vacname().equals(s1.Vname())){
+                                                System.out.println("Diffrent vaccine type not recommanded");
+                                                break;
+                                            }
+                                        }
                                         if(s1!=null){
                                             s1.updateSlot();
-                                            System.out.println(allcitizen.get(i).name()+" is Vaccinated");
+                                            System.out.println(allcitizen.get(i).name()+" is Vaccinated "+s1.Vname());
                                                     int nd=0;
                                                     int gp=0;
                                                     for(int x=0;x<allvacs.size();x++){
@@ -293,7 +305,7 @@ public class Assignmen1_2020249 {
 
                                         }
                                         else{
-                                            System.out.println("No slot found");
+                                            System.out.println("No slot available ");
                                         }
                                     }
                                     else{
@@ -304,9 +316,11 @@ public class Assignmen1_2020249 {
 
                                     
                                 }
-                                else
+                            else if(ch==3)
                                     break;
-                            
+                            else{
+                                System.out.println("Wrong input");
+                            }
                         
                                 
                         }
@@ -349,7 +363,7 @@ public class Assignmen1_2020249 {
                             else{
                                 // System.out.println(allcitizen.get(i).checkstatus());
                                 allcitizen.get(i).printvac();
-                                System.out.println("Next vaccine date"+allcitizen.get(i).ndate());
+                                System.out.println("Next vaccine date: "+allcitizen.get(i).ndate());
                                 
                             }
                         }
@@ -619,7 +633,7 @@ class Citizen{
 
     //Print the vaccine information
     public void printvac(){
-        System.out.println("Vaccine given: "+this.info.getVname()+"\nNumber of doses"+this.info.doses());
+        System.out.println("Vaccine given: "+this.info.getVname()+"\nNumber of doses: "+this.info.doses());
     }
 
     //update the next vaccine date 
@@ -637,6 +651,13 @@ class Citizen{
             this.status="Partially Vaccinated";
         this.info=info;
         this.upnd(ndate);
+    }
+
+    //return the name of the vaccine if vaccinated before
+    public String Vacname(){
+        if(this.info==null)
+        return null;
+        return this.info.getVname();
     }
 
     //Update the vaccine information some information already exist
