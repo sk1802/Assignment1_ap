@@ -31,6 +31,10 @@ public class Backpack {
 
 
     public static void ViewMaterial(){
+        if(MaterialList.size()==0){
+            System.out.println("No class material");
+            return;
+        }
         for(int i=0;i<MaterialList.size();i++){
             Object s=(Object)MaterialList.get(i);
             if(s instanceof LectureSlide)
@@ -42,6 +46,10 @@ public class Backpack {
     }
 
     public static void ViewAssessment(){
+        if(Alist.size()==0){
+            System.out.println("NO assessments");
+            return;
+        }
         for(int i=0;i<Alist.size();i++){
             System.out.print("ID "+i+" ");
             Object s=(Object)Alist.get(i);
@@ -54,6 +62,10 @@ public class Backpack {
     }
 
     public static void VC(){
+        if(Clist.size()==0){
+            System.out.println("NO comments");
+            return;
+        }
         for(int i=0;i<Clist.size();i++){
             System.out.println(Clist.get(i).getComments()+" - "+Clist.get(i).getId()+"\n"+Clist.get(i).getDate());
         }
@@ -120,7 +132,7 @@ public class Backpack {
                                     String Topic=sc.nextLine();
                                     System.out.println("Enter filename of the Video");
                                     String filename=sc.nextLine();
-                                    if(filename.substring(filename.length()-4).equals(".mp4")){
+                                    if(filename.length()>4 && filename.substring(filename.length()-4).equals(".mp4")){
                                         LectureVideos Lv=new LectureVideos(Topic,filename,TeacherList.get(Tid).getId());
                                         MaterialList.add(Lv);
                                     }
@@ -300,7 +312,7 @@ public class Backpack {
                                 if(s instanceof Assignments){
                                     System.out.println("Enter filename of the Assignment");
                                     String ans=sc.nextLine();
-                                    if(ans.substring(ans.length()-4).equals(".zip")){
+                                    if(ans.length()>4 && ans.substring(ans.length()-4).equals(".zip")){
                                         Submissions Newsub=new Submissions(Sid,ans);
                                         Alist.get(Aid).addSubmissions(Newsub);
                                         flag=true;

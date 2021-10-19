@@ -53,7 +53,8 @@ public class Assessments {
     public int viewSubmissions(){
         if(this. AnsList.size()==0) return 0;
         for(int i=0;i<this. AnsList.size();i++){
-            System.out.println(i+" S"+AnsList.get(i).getSid());
+            if(AnsList.get(i).getStatus().equals("Ungraded"))
+                System.out.println(i+" S"+AnsList.get(i).getSid());
         }
         return 1;
     }

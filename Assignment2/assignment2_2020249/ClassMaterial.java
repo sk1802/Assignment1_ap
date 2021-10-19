@@ -43,7 +43,7 @@ class LectureSlide extends ClassMaterial implements GetMaterial{
     public void getMaterial() {
         System.out.println("Title: "+this.getTopic());
         for(int i=0;i<this.slides_content.size();i++){
-            System.out.println("Slide "+(i+1)+" : "+this.slides_content.get(i));
+            System.out.println("Content of Slide "+(i+1)+": "+this.slides_content.get(i));
         }
         System.out.println("Number of slides: "+this.NumberOfSlides);
         System.out.println("Date of Upload: "+this.getdate());
